@@ -1,6 +1,7 @@
 use std::{
     env,
     error::Error, fs::File, io::BufRead,
+    io::BufReader,
 };
 
 const SHA1_HEX_STRING_LENGTH: usize = 40;
@@ -23,7 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let wordlist = File::open(wordlist_path)?;
-    let reader = std::io::BufReader::new(wordlist);
+    let reader = BufReader::new(wordlist);
 
     for line in reader.lines() {
         println!("{}", line?);
@@ -31,4 +32,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
+
+
 
