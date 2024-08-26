@@ -34,4 +34,50 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_invalid_args_length() {
+        let args = vec![
+            String::from("sha1_cracker"),
+            String::from("wordlist.txt"),
+        ];
+        assert!(main_with_args(args).is_ok());
+    }
+
+    #[test]
+    fn test_invalid_hash_length() {
+        let args = vec![
+            String::from("sha1_cracker"),
+            String::from("wordlist.txt"),
+            String::from("invalid_hash"),
+        ];
+        let result = main_with_args(args);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_valid_args_and_hash() {
+        let args = vec![
+            String::from("sha1_cracker"),
+            String::from("wordlist.txt"),
+            String::from("valid_hash"),
+        ];
+        assert!(main_with_args(args).is_ok());
+    }
+
+    fn main_with_args(args: Vec<String>) -> Result<(), Box<dyn Error>> {
+        env::set_var("RUST_BACKTRACE", "0");
+        env::set_var("RUST_LOG", "info");
+
+        let result = main();
+
+        env::remove_var("RUST_BACKTRACE");
+        env::remove_var("RUST_LOG");
+
+        result
+    }
+}
 
