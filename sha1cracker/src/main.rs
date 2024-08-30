@@ -1,14 +1,10 @@
-use std::{
-    env,
-    error::Error, fs::File, io::BufRead,
-    io::BufReader,
-};
+use std::{env, error::Error, fs::File, io::BufRead, io::BufReader};
 
 const SHA1_HEX_STRING_LENGTH: usize = 40;
 
 fn main() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = env::args().collect();
-    
+
     if args.len() != 3 {
         println!("usage: ");
         println!("sha1_cracker: <wordlist.txt> <hash>");
@@ -16,7 +12,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
 
     let wordlist_path = &args[1];
-    
+
     let hash = &args[2].trim();
     if hash.len() != SHA1_HEX_STRING_LENGTH {
         println!("Invalid hash length");
@@ -33,17 +29,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_invalid_args_length() {
-        let args = vec![
-            String::from("sha1_cracker"),
-            String::from("wordlist.txt"),
-        ];
+        let args = vec![String::from("sha1_cracker"), String::from("wordlist.txt")];
         assert!(main_with_args(args).is_ok());
     }
 
@@ -80,4 +72,3 @@ mod tests {
         result
     }
 }
-
